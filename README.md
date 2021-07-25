@@ -1,7 +1,18 @@
-# gatsby-plugin-offline
+# gatsby-plugin-offline-next
 
+Fork of the official [gatsby-plugin-offline](https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-plugin-offline) with updated workbox version.
+Based on [this PR](https://github.com/gatsbyjs/gatsby/pull/31542).
+
+⚠️ **Note**: I created this fork of the above mentioned PR because the PR currently does not seem to get any feedback, 
+and I wanted to provide the plugin with a more recent version of workbox to users who need/want it.
+If the Gatsby team decides to merge the above mentioned PR, this plugin will be obsolete and the official plugin should be used again.
+
+Thus consider the status of this plugin currently as somewhat unstable (in the sense that if the above mentioned case happens,
+users will probably need to switch back to the official plugin, which however should not be a big deal, but nonetheless something you should keep in mind if you're using this fork).
+
+## Description
 Adds drop-in support for making a Gatsby site work offline and more resistant to
-bad network connections. It uses [Workbox Build](https://developers.google.com/web/tools/workbox/modules/workbox-build)
+bad network connections. It uses [workbox-webpack-plugin](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin)
 to create a service worker for the site and loads the service worker into the client.
 
 If you're using this plugin with `gatsby-plugin-manifest` (recommended) this
@@ -10,25 +21,25 @@ in the service worker.
 
 ## Install
 
-`npm install gatsby-plugin-offline`
+`npm install gatsby-plugin-offline-next`
 
 ## How to use
 
 ```javascript
 // In your gatsby-config.js
-plugins: [`gatsby-plugin-offline`]
+plugins: [`gatsby-plugin-offline-next`]
 ```
 
 ## Available options
 
-In `gatsby-plugin-offline` 5.x, the following options are available:
+In `gatsby-plugin-offline-next` 5.x, the following options are available:
 
 - `precachePages` lets you specify pages whose resources should be precached by the service worker, using an array of globs. For example:
 
   ```javascript:title=gatsby-config.js
   plugins: [
     {
-      resolve: `gatsby-plugin-offline`,
+      resolve: `gatsby-plugin-offline-next`,
       options: {
         precachePages: [`/about-us/`, `/projects/*`],
       },
@@ -43,7 +54,7 @@ In `gatsby-plugin-offline` 5.x, the following options are available:
   ```javascript:title=gatsby-config.js
   plugins: [
     {
-      resolve: `gatsby-plugin-offline`,
+      resolve: `gatsby-plugin-offline-next`,
       options: {
         swSrc: require.resolve(`src/custom-sw-code.js`),
       },
@@ -54,13 +65,13 @@ In `gatsby-plugin-offline` 5.x, the following options are available:
   <br />
 
   ```javascript:title=src/custom-sw-code.js
-  // default workbox setup & logic from `gatsby-plugin-offline/serviceworker/index.js`:
-  import { precache } from "gatsby-plugin-offline/serviceworker/precache.js"
-  import { setup } from "gatsby-plugin-offline/serviceworker/setup.js"
-  import { registerDefaultRoutes } from "gatsby-plugin-offline/serviceworker/default-routes.js"
-  import { setupOfflineRouting } from "gatsby-plugin-offline/serviceworker/offline.js"
-  import { googleAnalytics } from "gatsby-plugin-offline/serviceworker/google-analytics.js"
-  import { cleanup } from "gatsby-plugin-offline/serviceworker/cleanup.js"
+  // default workbox setup & logic from `gatsby-plugin-offline-next/serviceworker/index.js`:
+  import { precache } from "gatsby-plugin-offline-next/serviceworker/precache.js"
+  import { setup } from "gatsby-plugin-offline-next/serviceworker/setup.js"
+  import { registerDefaultRoutes } from "gatsby-plugin-offline-next/serviceworker/default-routes.js"
+  import { setupOfflineRouting } from "gatsby-plugin-offline-next/serviceworker/offline.js"
+  import { googleAnalytics } from "gatsby-plugin-offline-next/serviceworker/google-analytics.js"
+  import { cleanup } from "gatsby-plugin-offline-next/serviceworker/cleanup.js"
   import { NavigationRoute, registerRoute } from "workbox-routing"
 
   precache()
@@ -88,7 +99,7 @@ In `gatsby-plugin-offline` 5.x, the following options are available:
   The specified file will be compiled/bundled with webpack, so as shown in the example above, other modules can be imported.
 
   Note: if you provide the `swSrc` option, you'll need to make sure that the appropriate workbox routes get set up
-  and also the custom offline logic this plugin provides gets executed. See files in `gatsby-plugin-offline/serviceworker` for further information
+  and also the custom offline logic this plugin provides gets executed. See files in `gatsby-plugin-offline-next/serviceworker` for further information
 
 - `cacheId` lets you specify a custom cache prefix used by workbox. See [Configure Workbox Documentation](https://developers.google.com/web/tools/workbox/guides/configure-workbox)
 
@@ -102,19 +113,20 @@ In `gatsby-plugin-offline` 5.x, the following options are available:
 
 - `additionalManifestEntries`, `manifestTransforms`, `maximumFileSizeToCacheInBytes`, `dontCacheBustURLsMatching`, `modifyURLPrefix` Options passed to [workbox's InjectManifest webpack plugin](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-webpack-plugin.InjectManifest)
 
-## Upgrading to 5.x
+## Migrating from official gatsby-plugin-offline (v4.x)
 
 Version 5.x of this plugin no longer uses the `workbox-build`/`generateSW` tool to generate the service worker.
 Instead, it uses the `InjectManifest` webpack plugin.
 This means that some options are no longer supported (although it should be possible to implement the same features via a custom `swSrc` -> see above).
 
-To upgrade from a version prior to 5.x (3.x, 4.x), you'll need to perform the following steps:
+To upgrade from a version prior to 5.x (3.x, 4.x) of the official `gatsby-plugin-offline`, you'll need to perform the following steps:
 
 1. Remove no longer supported options `importWorkboxFrom` and `globDirectory`
 
 2. Move supported options from `workboxConfig` to the root level option object
 
 ```javascript
+// previous
 plugins: [
   {
     resolve: `gatsby-plugin-offline`,
@@ -133,9 +145,10 @@ plugins: [
 ```
 
 ```javascript
+// v5 (gatsby-plugin-offline-next)
 plugins: [
   {
-    resolve: `gatsby-plugin-offline`,
+    resolve: `gatsby-plugin-offline-next`,
     options: {
       precachePages: ["about"],
       cacheId: "some-cache-id",
@@ -200,10 +213,10 @@ plugins: [
 ```
 
 ```javascript:title=new-gatsby-config.js
-// 5.x
+// 5.x (gatsby-plugin-offline-next)
 plugins: [
   {
-    resolve: `gatsby-plugin-offline`,
+    resolve: `gatsby-plugin-offline-next`,
     options: {
       // ...
       swSrc: path.resolve(__dirname, "src/custom-sw.js"),
@@ -214,7 +227,7 @@ plugins: [
 
 ```javascript:title=src/custom-sw.js
 // this includes the default behaviour & setup of the service worker from gatsby-plugin-offline
-import "gatsby-plugin-offline/serviceworker/index.js"
+import "gatsby-plugin-offline-next/serviceworker/index.js"
 
 import { registerRoute } from "workbox-routing"
 import { NetworkFirst } from "workbox-strategies"
@@ -260,10 +273,10 @@ plugins: [
 ```
 
 ```javascript:title=new-gatsby-config.js
-// 5.x
+// 5.x (gatsby-plugin-offline-next)
 plugins: [
   {
-    resolve: `gatsby-plugin-offline`,
+    resolve: `gatsby-plugin-offline-next`,
     options: {
       // ...
       swSrc: path.resolve(__dirname, "src/custom-sw.js"),
@@ -273,12 +286,12 @@ plugins: [
 ```
 
 ```javascript:title=src/custom-sw.js
-// code based on gatsby-plugin-offline/serviceworker/index.js (note: `registerDefaultRoutes()` is not used, as we will define all used route handlers below ourselfs)
-import { precache } from "gatsby-plugin-offline/serviceworker/precache.js"
-import { setup } from "gatsby-plugin-offline/serviceworker/setup.js"
-import { setupOfflineRouting } from "gatsby-plugin-offline/serviceworker/offline.js"
-import { googleAnalytics } from "gatsby-plugin-offline/serviceworker/google-analytics.js"
-import { cleanup } from "gatsby-plugin-offline/serviceworker/cleanup.js"
+// code based on gatsby-plugin-offline-next/serviceworker/index.js (note: `registerDefaultRoutes()` is not used, as we will define all used route handlers below ourselfs)
+import { precache } from "gatsby-plugin-offline-next/serviceworker/precache.js"
+import { setup } from "gatsby-plugin-offline-next/serviceworker/setup.js"
+import { setupOfflineRouting } from "gatsby-plugin-offline-next/serviceworker/offline.js"
+import { googleAnalytics } from "gatsby-plugin-offline-next/serviceworker/google-analytics.js"
+import { cleanup } from "gatsby-plugin-offline-next/serviceworker/cleanup.js"
 import { NavigationRoute, registerRoute } from "workbox-routing"
 import { registerRoute } from "workbox-routing"
 import { StaleWhileRevalidate } from "workbox-strategies"
@@ -304,20 +317,20 @@ registerRoute(
 
 ## Remove
 
-If you want to remove `gatsby-plugin-offline` from your site at a later point,
+If you want to remove `gatsby-plugin-offline-next` from your site at a later point,
 substitute it with [`gatsby-plugin-remove-serviceworker`](https://www.npmjs.com/package/gatsby-plugin-remove-serviceworker)
 to safely remove the service worker. First, install the new package:
 
 ```shell
 npm install gatsby-plugin-remove-serviceworker
-npm uninstall gatsby-plugin-offline
+npm uninstall gatsby-plugin-offline-next
 ```
 
 Then, update your `gatsby-config.js`:
 
 ```diff:title=gatsby-config.js
  plugins: [
--  `gatsby-plugin-offline`,
+-  `gatsby-plugin-offline-next`,
 +  `gatsby-plugin-remove-serviceworker`,
  ]
 ```
@@ -329,7 +342,7 @@ outdated version registered in users' browsers.
 
 ### Empty View Source and SEO
 
-Gatsby offers great SEO capabilities and that is no different with `gatsby-plugin-offline`. However, you shouldn't think that Gatsby doesn't serve HTML tags anymore when looking at your source code in the browser (with `Right click` => `View source`). `View source` doesn't represent the actual HTML data since `gatsby-plugin-offline` registers and loads a service worker that will cache and handle this differently. Your site is loaded from the service worker, not from its actual source (check your `Network` tab in the DevTools for that).
+Gatsby offers great SEO capabilities and that is no different with `gatsby-plugin-offline-next`. However, you shouldn't think that Gatsby doesn't serve HTML tags anymore when looking at your source code in the browser (with `Right click` => `View source`). `View source` doesn't represent the actual HTML data since `gatsby-plugin-offline-next` registers and loads a service worker that will cache and handle this differently. Your site is loaded from the service worker, not from its actual source (check your `Network` tab in the DevTools for that).
 
 To see the HTML data that crawlers will receive, run this in your terminal:
 
@@ -349,7 +362,7 @@ Alternatively you can have a look at the `/public/index.html` file in your proje
 
 ### App shell and server logs
 
-Server logs (like from [Netlify analytics](https://www.netlify.com/products/analytics/)) may show a large number of pageviews to a route like `/offline-plugin-app-shell-fallback/index.html`, this is a result of `gatsby-plugin-offline` adding an [app shell](https://developers.google.com/web/fundamentals/architecture/app-shell) to the page. The app shell is a minimal amount of user interface that can be cached offline for reliable performance loading on repeat visits. The shell can be loaded from the cache, and the content of the site loaded into the shell by the service worker.
+Server logs (like from [Netlify analytics](https://www.netlify.com/products/analytics/)) may show a large number of pageviews to a route like `/offline-plugin-app-shell-fallback/index.html`, this is a result of `gatsby-plugin-offline-next` adding an [app shell](https://developers.google.com/web/fundamentals/architecture/app-shell) to the page. The app shell is a minimal amount of user interface that can be cached offline for reliable performance loading on repeat visits. The shell can be loaded from the cache, and the content of the site loaded into the shell by the service worker.
 
 ### Using with gatsby-plugin-manifest
 
@@ -366,7 +379,7 @@ In order to solve this, update your `gatsby-config.js` as follows:
    }
 },
 {
-   resolve: 'gatsby-plugin-offline',
+   resolve: 'gatsby-plugin-offline-next',
    options: {
       workboxConfig: {
          globPatterns: ['**/icon-path*']
