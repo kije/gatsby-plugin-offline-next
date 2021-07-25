@@ -49,7 +49,7 @@ exports.onCreateWebpackConfig = (
     : defaultChunks
 
   const settings = {
-    cacheId: options.cacheId ? options.cacheId : `gatsby-plugin-offline`,
+    cacheId: options.cacheId ? options.cacheId : `gatsby-plugin-offline-next`,
     directoryIndex: `index.html`,
     skipWaiting: !_.isNil(options.skipWaiting) ? options.skipWaiting : true,
     deletePreviousCacheVersionsOnUpdate: !_.isNil(
@@ -158,7 +158,7 @@ exports.onPostBuild = async (
   const rootDir = `public`
   const publicDir = path.resolve(process.cwd(), rootDir)
   const files = getAssetsForChunks([
-    `component---cache-caches-gatsby-plugin-offline-app-shell-js`,
+    `component---cache-caches-gatsby-plugin-offline-next-app-shell-js`,
   ])
   const appFile = getAssetsForChunks([`app`]).find(file =>
     file.startsWith(`app-`)
@@ -267,7 +267,7 @@ exports.onPostBuild = async (
 
 const MATCH_ALL_KEYS = /^/
 exports.pluginOptionsSchema = function ({ Joi }) {
-  // These are the options of the v5: https://www.gatsbyjs.com/plugins/gatsby-plugin-offline/#available-options
+  // These are the options of the v5: https://github.com/kije/gatsby-plugin-offline-next#available-options
   return Joi.object({
     precachePages: Joi.array()
       .items(Joi.string())

@@ -358,7 +358,7 @@ describe(`pluginOptionsSchema`, () => {
       modifyURLPrefix: {
         "/": `pathPrefix/`,
       },
-      cacheId: `gatsby-plugin-offline`,
+      cacheId: `gatsby-plugin-offline-next`,
       dontCacheBustURLsMatching: /(\.js$|\.css$|static\/)/,
       maximumFileSizeToCacheInBytes: 4800,
       skipWaiting: true,
