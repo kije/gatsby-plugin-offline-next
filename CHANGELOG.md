@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 5.0.1 (2021-07-25)
+- fixed some leftover occurrences of references to gatsby-plugin-offline instead of gatsby-plugin-offline-next
+- fixed documentation link
+
 # 5.0.0 (2021-07-25)
 
 - Upgraded workbox from v4.x to v6.x
