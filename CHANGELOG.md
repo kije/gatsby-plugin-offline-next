@@ -10,7 +10,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - precache resources gathered from built pages is no longer inlined in the sw.js itself, but written after the build to a separate file that gets included via importScripts in the service worker. The file name contains a content hash to ensure that a service worker update is triggered it it's content changes
 - default runtime caching handlers: only cache successful (HTTP status 200) responses
 - added deletePreviousCacheVersionsOnUpdate for cleaning up old cache versions in case cacheId changes
-- ⚠️ breaking changes to the structure of the options of this plugin due to workbox upgrade -> see [Migrating from official gatsby-plugin-offline (v4.x)](https://github.com/kije/gatsby-plugin-offline-next/README.md#Migrating-from-official-gatsby-plugin-offline-v4x) 
+- ⚠️ breaking changes to the structure of the options of this plugin due to workbox upgrade -> see [Migrating from official gatsby-plugin-offline (v4.x)](https://github.com/kije/gatsby-plugin-offline-next#migrating-from-official-gatsby-plugin-offline-v4x) 
 
 # Previous versions (up to v4.11.0-next.0)
 - see [changelog of the official gatsby-plugin-offline](https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-plugin-offline/CHANGELOG.md)
