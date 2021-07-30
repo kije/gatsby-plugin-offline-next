@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 5.1.0 (2021-07-30)
+- provide exports for individual default routes
+- allow custom defines that get passed to webpack's DefinePlugin
+
 # 5.0.2 (2021-07-25)
 - removed some dev artifacts from published npm package
 
