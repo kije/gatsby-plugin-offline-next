@@ -81,6 +81,7 @@ exports.onCreateWebpackConfig = (
       chunks,
       webpackCompilationPlugins: [
         new webpack.DefinePlugin({
+          ...(options.define ? options.define : {}),
           __GATSBY_PLUGIN_OFFLINE_SETTINGS: JSON.stringify(settings),
         }),
       ],
@@ -284,6 +285,9 @@ exports.pluginOptionsSchema = function ({ Joi }) {
     maximumFileSizeToCacheInBytes: Joi.number(),
     skipWaiting: Joi.boolean(),
     clientsClaim: Joi.boolean(),
+    define: Joi.object().description(
+      `Object passed to webpack's DefinePlugin to define values that get replaced in the compiled service worker. See https://webpack.js.org/plugins/define-plugin/`
+    ),
     manifestTransforms: Joi.array()
       .items(Joi.function())
       .description(

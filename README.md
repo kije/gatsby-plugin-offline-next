@@ -103,6 +103,8 @@ In `gatsby-plugin-offline-next` 5.x, the following options are available:
 
 - `cacheId` lets you specify a custom cache prefix used by workbox. See [Configure Workbox Documentation](https://developers.google.com/web/tools/workbox/guides/configure-workbox)
 
+- `define` Object passed to webpacks DefinePlugin to define values that get replaced in the compiled service worker. See [DefinePlugin](https://webpack.js.org/plugins/define-plugin/)
+
 - `chunks` additional webpack chunk names that shall be precached. See [InjectManifest](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-webpack-plugin.InjectManifest) for more information
 
 - `offlineAnalyticsConfig` If specified, these options get passed to the [workbox-google-analytics](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-google-analytics) plugin. You can also set this option to just enable this plugin with the default options
