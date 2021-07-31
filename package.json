@@ -1,7 +1,7 @@
 {
   "name": "gatsby-plugin-offline-next",
   "description": "Gatsby plugin which sets up a site to be able to run offline",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "contributors": [
     "Kim D. Jeker <github@kije.ch>"
