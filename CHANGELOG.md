@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 5.2.2 (2021-07-31)
+- fixed output formatting
+
+# 5.2.1 (2021-07-31)
+- fixed typo that let build fail
+
+# 5.2.0 (2021-07-31)
+- added `webpackCompilationPlugins` option
+- use [`lodash-webpack-plugin`](https://github.com/lodash/lodash-webpack-plugin) to reduce size of included lodash build.
+
 # 5.1.0 (2021-07-30)
 - provide exports for individual default routes
 - allow custom defines that get passed to webpack's DefinePlugin
