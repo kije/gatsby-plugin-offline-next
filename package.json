@@ -1,7 +1,7 @@
 {
   "name": "gatsby-plugin-offline-next",
   "description": "Gatsby plugin which sets up a site to be able to run offline",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "contributors": [
     "Kim D. Jeker <github@kije.ch>"
@@ -16,6 +16,7 @@
     "glob": "^7.1.7",
     "idb-keyval": "^5.0.6",
     "lodash": "^4.17.21",
+    "lodash-webpack-plugin": "^0.11.6",
     "md5-file": "^5.0.0",
     "workbox-webpack-plugin": "^6.1.5"
   },
