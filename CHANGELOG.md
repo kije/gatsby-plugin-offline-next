@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 5.2.3 (2022-01-10)
+- fixed issue with manifestTransforms option
+- fixed issue with offlineAnalyticsConfigString option
+- fixed error when glob patterns matched directories
+
 # 5.2.2 (2021-07-31)
 - fixed output formatting
 

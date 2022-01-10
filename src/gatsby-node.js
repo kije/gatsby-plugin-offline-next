@@ -78,7 +78,7 @@ exports.onCreateWebpackConfig = (
       dontCacheBustURLsMatching,
       modifyURLPrefix,
       maximumFileSizeToCacheInBytes: options.maximumFileSizeToCacheInBytes,
-      manifestTransforms: options.manifestTransforms,
+      manifestTransforms: typeof options.manifestTransforms !== "undefined" ? options.manifestTransforms : [],
       additionalManifestEntries: options.additionalManifestEntries,
       chunks,
       webpackCompilationPlugins: [
@@ -213,6 +213,7 @@ exports.onPostBuild = async (
                 pattern,
                 {
                   cwd: publicDir,
+                  nodir: true,
                 },
                 (er, files) => {
                   if (er) {
@@ -220,7 +221,7 @@ exports.onPostBuild = async (
                   }
 
                   try {
-                    resolve(_.compact(files))
+                    resolve(_.compact(files));
                   } catch (e) {
                     reject(e)
                   }
