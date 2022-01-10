@@ -7,6 +7,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - fixed issue with manifestTransforms option
 - fixed issue with offlineAnalyticsConfigString option
 - fixed error when glob patterns matched directories
+- minor dependency updates
 
 # 5.2.2 (2021-07-31)
 - fixed output formatting
