@@ -15,6 +15,15 @@ let getResourcesFromHTML = require(`./get-resources-from-html`)
 
 const SW_DESTINATION_NAME = `sw.js`
 
+const prefixPathTransform = (pathPrefix) => (originalManifest) => {
+  const pattern = new RegExp(`^\/(?!${pathPrefix.replace(/^\//, '')})`);
+  const manifest = originalManifest.map((entry) => {
+    entry.url = entry.url.replace(pattern, `/${pathPrefix.replace(/^\//, '')}/`)
+    return entry;
+  });
+
+  return {manifest};
+}; 
 exports.onPreBootstrap = ({ cache }) => {
   const appShellSourcePath = path.join(__dirname, `app-shell.js`)
   const appShellTargetPath = path.join(cache.directory, `app-shell.js`)
@@ -39,11 +48,7 @@ exports.onCreateWebpackConfig = (
     : /(\.js$|\.css$|static\/)/
   const modifyURLPrefix = options.modifyURLPrefix
     ? options.modifyURLPrefix
-    : {
-        // If `pathPrefix` is configured by user, we should replace
-        // the default prefix with `pathPrefix`.
-        "/": `${pathPrefix}/`,
-      }
+    : {}
 
   const defaultChunks = [`app`, `webpack-runtime`]
   const chunks = options.chunks
@@ -78,7 +83,7 @@ exports.onCreateWebpackConfig = (
       dontCacheBustURLsMatching,
       modifyURLPrefix,
       maximumFileSizeToCacheInBytes: options.maximumFileSizeToCacheInBytes,
-      manifestTransforms: typeof options.manifestTransforms !== "undefined" ? options.manifestTransforms : [],
+      manifestTransforms: typeof options.manifestTransforms !== "undefined" ? options.manifestTransforms : [prefixPathTransform(pathPrefix)],
       additionalManifestEntries: options.additionalManifestEntries,
       chunks,
       webpackCompilationPlugins: [
@@ -233,12 +238,13 @@ exports.onPostBuild = async (
     )
   )
 
-  const precacheResources = await Promise.all(
+  const doPrefix = prefixPathTransform(pathPrefix)
+  const precacheResources = doPrefix(await Promise.all(
     globedFiles.map(async file => {
       const revision = await md5File(path.resolve(publicDir, file))
       return { url: `/${_.trimStart(slash(file), `/`)}`, revision }
     })
-  )
+  )).manifest
 
   const digest = createContentDigest(precacheResources).substr(0, 15)
 
@@ -260,7 +266,7 @@ exports.onPostBuild = async (
     .readFileSync(swPublicPath, `utf8`)
     .replace(
       /%precachePageResourcesManifestPath%/,
-      `/${resourcePrecacheManifest}`
+      `/${path.join(pathPrefix, resourcePrecacheManifest).replace(/^\//, '')}`
     )
     .replace(/%pathPrefix%/g, pathPrefix)
     .replace(/%appFile%/g, appFile)
